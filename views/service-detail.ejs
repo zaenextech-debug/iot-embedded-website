@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+  <title><%= data.title %> | ZAENEX Tech Services</title>
+
+  <!-- Favicon + PWA -->
+  <link rel="icon" href="/favicon.ico" sizes="any" type="image/x-icon">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#4B0082">
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://zaenextech.com/services/<%= data.slug %>"/>
+
+  <!-- SEO -->
+  <meta name="description" content="<%= data.blurb %>">
+  <meta name="keywords" content="zaenex, zaenextech, services, <%= data.title %>, IoT, hardware, software, firmware, PCB, embedded systems">
+
+  <!-- Open Graph -->
+  <meta property="og:site_name" content="ZAENEX Tech">
+  <meta property="og:title" content="<%= data.title %> | ZAENEX Tech">
+  <meta property="og:description" content="<%= data.blurb %>">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://zaenextech.com/services/<%= data.slug %>">
+  <meta property="og:image" content="https://zaenextech.com/images/og-cover.jpg">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="<%= data.title %> | ZAENEX Tech">
+  <meta name="twitter:description" content="<%= data.blurb %>">
+  <meta name="twitter:image" content="https://zaenextech.com/images/og-cover.jpg">
+
+  <!-- JSON-LD: Service -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"Service",
+    "name":"<%= data.title %>",
+    "provider":{"@type":"Organization","name":"ZAENEX Tech","url":"https://zaenextech.com"},
+    "areaServed":"Worldwide",
+    "description":"<%- data.blurb.replace(/"/g,'\\"') %>",
+    "url":"https://zaenextech.com/services/<%= data.slug %>"
+  }
+  </script>
+
+  <link rel="stylesheet" href="/css/style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+
+  <style>
+    .sd-wrap{padding:6rem 0 4rem;background:linear-gradient(180deg,#0f1220 0%, #12152a 60%, #14182f 100%);}
+    .sd-head{max-width:1000px;margin:0 auto 1.25rem;color:#fff;text-align:center}
+    .sd-head h1{font-size:2rem}
+    .sd-head p{color:#b9bcd2;margin-top:.5rem}
+    .sd-actions{display:flex;justify-content:center;gap:12px;margin-top:1rem}
+    .sd-actions .btn{min-width:220px}
+    .sd-grid{max-width:1200px;margin:1.5rem auto 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px;padding:0 20px}
+    .sd-card{background:#0e1224;border:1px solid rgba(255,255,255,0.06);border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,.25);padding:22px;color:#dde1ff;transition:transform .25s ease, box-shadow .25s ease}
+    .sd-card:hover{transform:translateY(-6px);box-shadow:0 16px 40px rgba(0,0,0,.35)}
+    .sd-card h2{font-size:1.35rem;margin:0 0 .8rem;display:flex;align-items:center;gap:10px}
+    .sd-card h2 i{color:#7B3FE4}
+    .sd-item{margin:14px 0}
+    .sd-label{font-weight:600;font-size:.98rem;margin-bottom:8px;display:block}
+    .sd-bar{height:8px;border-radius:999px;background:rgba(255,255,255,.08);position:relative;overflow:hidden}
+    .sd-bar-fill{position:absolute;left:0;top:0;bottom:0;background:linear-gradient(90deg,#5c6cff 0%, #00e676 100%);width:calc(var(--pct,0) * 1%);}
+    @media (max-width:768px){
+      .sd-head h1{font-size:1.6rem}
+      .sd-actions .btn{min-width:180px}
+    }
+  </style>
+</head>
+<body>
+<header class="header">
+  <div class="container">
+    <div class="logo">⚡ IoT & Embedded Systems Co.</div>
+    <nav class="navbar">
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a class="active" href="/#services">Services</a></li>
+        <li><a href="/#contact">Contact</a></li>
+      </ul>
+    </nav>
+    <div class="mobile-menu-btn"><i class="fas fa-bars"></i></div>
+  </div>
+</header>
+
+<section class="sd-wrap">
+  <div class="sd-head">
+    <h1><i class="fas <%= data.icon %>"></i> <%= data.title %></h1>
+    <p><%= data.blurb %></p>
+    <div class="sd-actions">
+      <a href="/#services" class="btn btn-primary">Back to Services</a>
+    </div>
+  </div>
+
+  <div class="sd-grid">
+    <% data.columns.forEach(function(col){ %>
+      <div class="sd-card">
+        <h2><i class="fas <%= col.icon %>"></i> <%= col.heading %></h2>
+        <% col.items.forEach(function(it){ %>
+          <div class="sd-item">
+            <span class="sd-label"><%= it.label %></span>
+            <div class="sd-bar"><div class="sd-bar-fill" style="--pct:<%= it.pct %>"></div></div>
+          </div>
+        <% }) %>
+      </div>
+    <% }) %>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-bottom">
+      <p>&copy; 2023 IoT & Embedded Systems Co.</p>
+      <div class="footer-links"><a href="/#services">Back to Services</a></div>
+    </div>
+  </div>
+</footer>
+
+<a href="#top" class="back-to-top" aria-label="Back to top"><i class="fas fa-arrow-up"></i></a>
+<script defer src="/js/main.js"></script>
+</body>
+</html>

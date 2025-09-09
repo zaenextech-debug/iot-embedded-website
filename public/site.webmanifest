@@ -1,0 +1,16 @@
+{
+  "name": "ZAENEX Tech",
+  "short_name": "ZAENEX",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "theme_color": "#4B0082",
+  "background_color": "#ffffff",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "any",
+      "type": "image/x-icon"
+    }
+  ]
+}
