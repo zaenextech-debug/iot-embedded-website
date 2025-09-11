@@ -9,17 +9,27 @@ const PORT = process.env.PORT || 3000;
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-// ---------- Trust proxy for correct host/https behind CDNs ----------
+// ---------- Trust proxy (Render/CDN) ----------
 app.set('trust proxy', 1);
 
-// ---------- Canonical host redirect (production only) ----------
-const CANONICAL_HOST = process.env.CANONICAL_HOST || 'zaenextech.com';
+// ---------- Canonical host + HTTPS (production only) ----------
+const CANONICAL_HOST = process.env.CANONICAL_HOST || 'www.zaenextech.com';
+
 if (process.env.NODE_ENV === 'production') {
   app.use((req, res, next) => {
     const host = (req.headers.host || '').toLowerCase();
-    if (host === `www.${CANONICAL_HOST}`) {
+    const proto = (req.headers['x-forwarded-proto'] || '').toLowerCase();
+
+    // Force HTTPS
+    if (proto !== 'https') {
+      return res.redirect(301, `https://${host}${req.originalUrl}`);
+    }
+
+    // Force www as canonical
+    if (host === 'zaenextech.com') {
       return res.redirect(301, `https://${CANONICAL_HOST}${req.originalUrl}`);
     }
+
     return next();
   });
 }
