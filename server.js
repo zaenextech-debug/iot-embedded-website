@@ -17,7 +17,6 @@ const CANONICAL_HOST = process.env.CANONICAL_HOST || 'zaenextech.com';
 if (process.env.NODE_ENV === 'production') {
   app.use((req, res, next) => {
     const host = (req.headers.host || '').toLowerCase();
-    // Force apex domain; keep path and query
     if (host === `www.${CANONICAL_HOST}`) {
       return res.redirect(301, `https://${CANONICAL_HOST}${req.originalUrl}`);
     }
@@ -31,7 +30,6 @@ app.use(
     maxAge: '30d',
     etag: true,
     setHeaders: (res, filePath) => {
-      // Make sure XML/manifest served with the proper type when static
       if (filePath.endsWith('sitemap.xml')) {
         res.type('application/xml; charset=utf-8');
       }
@@ -42,7 +40,7 @@ app.use(
   })
 );
 
-// ---------- Explicit assets (good for crawlers/bots) ----------
+// ---------- Explicit assets ----------
 app.get('/favicon.ico', (req, res) =>
   res.sendFile(path.join(__dirname, 'public', 'favicon.ico'))
 );
@@ -65,10 +63,10 @@ app.get('/services',(req,res)=> res.render('services',{ activePage:'services' })
 app.get('/projects',(req,res)=> res.render('projects',{ activePage:'projects' }));
 app.get('/contact', (req,res)=> res.render('contact', { activePage:'contact'  }));
 
-// ---------- Project detail (PCB portfolio page) ----------
+// ---------- Project detail ----------
 app.get('/projects/pcb', (req,res)=> res.render('project-pcb', { activePage:'projects' }));
 
-/** -------- Service detail data (no images, only skill cards) -------- */
+/** -------- Service detail data -------- */
 const serviceData = {
   pcb: {
     slug: 'pcb',
@@ -174,4 +172,7 @@ app.get('/services/:slug', (req,res)=>{
 app.get('/healthz', (req,res)=> res.type('text/plain').send('ok'));
 app.use((req,res)=> res.status(404).type('text/plain').send('Not found'));
 
-app.listen(PORT, ()=> console.log(`Server running on http://localhost:${PORT}`));
+// ---------- Listen ----------
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Server running on port ${PORT}`);
+});
